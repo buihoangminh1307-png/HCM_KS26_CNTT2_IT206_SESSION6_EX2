@@ -1,0 +1,83 @@
+BÀI TẬP: SO SÁNH TRADE-OFF CÁC GIẢI PHÁP RA LỆNH CHO AI TRONG HỌC TẬP & NGHIÊN CỨU
+ 
+Bài toán: Dùng AI làm gia sư Feynman (sinh viên giải thích lại bài bằng lời đơn giản) và chấm điểm tự động theo Rubric.
+ 
+BƯỚC 1: ĐỀ XUẤT 2 PROMPT MẪU
+ 
+--- Giải pháp 1 (Đơn giản, ngắn gọn) ---
+ 
+Bạn là gia sư Feynman. Hãy chấm bài giải thích sau của sinh viên về chủ đề {chu_de} theo 4 tiêu chí: Đúng kiến thức, Dễ hiểu, Có ví dụ, Đủ ý (mỗi tiêu chí 0-10 điểm). Cho nhận xét ngắn và 2 câu hỏi gợi mở.
+ 
+Bài giải thích: {bai_giai_thich}
+ 
+--- Giải pháp 2 (Chi tiết, có nhiều ràng buộc) ---
+ 
+Vai trò: Bạn là gia sư dùng phương pháp Feynman, chấm bài công bằng và thân thiện.
+ 
+Nhiệm vụ: Chấm bài giải thích của sinh viên về chủ đề {chu_de}, trình độ {trinh_do}.
+ 
+Rubric (mỗi tiêu chí 0-10 điểm):
+1. Đúng kiến thức
+2. Dễ hiểu
+3. Có ví dụ
+4. Đủ ý, có logic
+ 
+Bài giải thích: {bai_giai_thich}
+ 
+Xử lý lỗi:
+- Nếu bài trống hoặc dưới 20 từ: chỉ trả lời "Bài quá ngắn, vui lòng viết lại" và không chấm.
+- Nếu bài lạc đề: ghi "Bài lạc đề" và chấm tiêu chí 1 = 0 điểm.
+- Nếu có ý sai: chỉ ra câu sai và sửa lại.
+- Không tự thêm nội dung mà sinh viên chưa viết.
+ 
+Kết quả gồm:
+1. Bảng 3 cột: Tiêu chí | Điểm | Nhận xét
+2. Tổng điểm /40
+3. Điểm cần sửa (tối đa 3 ý)
+4. 2 câu hỏi gợi mở
+ 
+ 
+BƯỚC 2: BẢNG SO SÁNH TRADE-OFF
+ 
+Tiêu chí          | Giải pháp 1 (Đơn giản) | Giải pháp 2 (Chi tiết)
+------------------|------------------------|------------------------
+Độ dễ hiểu        | Cao                    | Trung bình
+Tốn token         | Ít                     | Nhiều hơn
+Chặn lỗi biên     | Trung bình             | Cực tốt
+Độ ổn định kết quả| Thấp (mỗi lần mỗi khác)| Cao (luôn đúng format)
+Thời gian viết    | Nhanh                  | Lâu hơn
+ 
+Nhận xét:
+- Giải pháp 1 viết nhanh, ít tốn token nhưng AI có thể chấm cả bài trống, hoặc khen chung chung khi bài có kiến thức sai.
+- Giải pháp 2 dài hơn và tốn token hơn nhưng AI chấm đúng quy tắc, kết quả giống nhau mỗi lần chạy.
+ 
+ 
+BƯỚC 3: LỰA CHỌN VÀ CHẠY THỬ
+ 
+Chọn: Giải pháp 2.
+ 
+Lý do:
+- Bài toán chấm điểm cần công bằng và ổn định, nên cần rubric và format cố định.
+- Dữ liệu thật hay bị trống, lạc đề hoặc sai kiến thức nên cần câu lệnh xử lý lỗi.
+- Tốn thêm token là chấp nhận được vì tránh được việc chấm sai.
+ 
+Chạy thử (chủ đề: Cache trình duyệt, trình độ sinh viên năm nhất)
+ 
+Bài giải thích: "Cache là bộ nhớ của trình duyệt để lưu ảnh, CSS của trang web. Lần sau vào lại thì web mở nhanh hơn. Cache cũng dùng để lưu mật khẩu đăng nhập."
+ 
+Kết quả AI trả về:
+ 
+Tiêu chí        | Điểm | Nhận xét
+Đúng kiến thức  | 6/10 | Đúng phần lưu file, sai phần mật khẩu
+Dễ hiểu         | 9/10 | Viết ngắn gọn, dễ hiểu
+Có ví dụ        | 6/10 | Có nhắc ảnh, CSS nhưng chưa có tình huống cụ thể
+Đủ ý, logic     | 6/10 | Thiếu phần khi cache bị cũ thì làm sao
+ 
+Tổng điểm: 27/40
+ 
+Điểm cần sửa:
+- Cache không lưu mật khẩu, việc nhớ đăng nhập là của Cookie.
+- Nên thêm ví dụ, như web đổi giao diện mà máy vẫn hiện bản cũ.
+- Nên nói cách xử lý là Hard Reload.
+ 
+ 
